@@ -14,6 +14,16 @@ description: >
 
 Configure Guardian for penetration testing against a target application.
 
+## Why Setup First
+
+Running `/guardian-setup` before any analysis is important because it:
+- **Secures credentials** — passwords and API keys go in `guardian/.env` (gitignored, chmod 0600), never in config files that might be committed
+- **Defines scope** — avoid rules prevent Guardian from hitting destructive endpoints (e.g., `/admin/delete`) or production payment flows during testing
+- **Enables resume** — the state file tracks which phases completed, so if a scan is interrupted, `/guardian` picks up where it left off instead of re-running everything
+- **Feeds downstream skills** — all 12 downstream skills (recon, 5 vuln, 5 exploit, report) read from `guardian/config.yaml`. Without setup, they fail with "Run /guardian-setup first"
+
+If the user wants to dive straight into analysis, acknowledge their urgency but explain that setup takes 2-3 minutes and saves significant time downstream.
+
 ## Prerequisites
 
 - Claude Code with auto-accept permissions (--dangerously-skip-permissions or allowedTools configured)
