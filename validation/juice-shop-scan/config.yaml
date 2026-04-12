@@ -1,0 +1,40 @@
+target:
+  url: http://localhost:3001
+  repo_path: .
+  type: both
+
+authentication:
+  login_type: form
+  login_url: http://localhost:3001/#/login
+  credentials_env: guardian/.env
+  login_flow:
+    - Navigate to login page
+    - Fill email field with $username
+    - Fill password field with $password
+    - Click Log in button
+  success_condition:
+    type: url_contains
+    value: search
+
+rules:
+  avoid:
+    - /api/Quantitys
+    - /api/Deliverys
+  focus:
+    - /rest/products
+    - /api/Users
+    - /api/Products
+    - /api/Feedbacks
+    - /api/Complaints
+    - /rest/user
+
+description: >
+  OWASP Juice Shop - intentionally vulnerable Node.js/Express + Angular
+  e-commerce application with SQLite database. Known vulnerabilities
+  include SQL injection in search, reflected XSS, broken authentication,
+  IDOR on user profiles, and SSRF via product image URLs.
+
+tools:
+  nmap: false
+  subfinder: false
+  whatweb: false
