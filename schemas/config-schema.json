@@ -1,0 +1,141 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://shannon.dev/guardian/config-schema.json",
+  "title": "Guardian Configuration",
+  "description": "Schema for Guardian YAML configuration files",
+  "type": "object",
+  "required": ["target"],
+  "additionalProperties": false,
+  "properties": {
+    "target": {
+      "type": "object",
+      "description": "Target application to scan",
+      "required": ["url"],
+      "additionalProperties": false,
+      "properties": {
+        "url": {
+          "type": "string",
+          "format": "uri",
+          "description": "Base URL of the target application"
+        },
+        "repo_path": {
+          "type": "string",
+          "default": ".",
+          "description": "Path to the application source repository"
+        },
+        "type": {
+          "type": "string",
+          "enum": ["web", "api", "both"],
+          "default": "web",
+          "description": "Type of application to scan"
+        },
+        "api_spec": {
+          "type": "string",
+          "description": "Path to an OpenAPI / Swagger specification file"
+        },
+        "api_base_path": {
+          "type": "string",
+          "description": "Base path prefix for API endpoints"
+        }
+      }
+    },
+    "authentication": {
+      "type": "object",
+      "description": "Authentication configuration for the target",
+      "additionalProperties": false,
+      "properties": {
+        "login_type": {
+          "type": "string",
+          "enum": ["form", "sso", "api", "basic"],
+          "description": "Authentication method used by the target"
+        },
+        "login_url": {
+          "type": "string",
+          "format": "uri",
+          "description": "URL of the login page or authentication endpoint"
+        },
+        "credentials_env": {
+          "type": "string",
+          "default": "guardian/.env",
+          "description": "Path to the environment file containing credentials"
+        },
+        "login_flow": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "Ordered steps describing the login flow"
+        },
+        "success_condition": {
+          "type": "object",
+          "description": "Condition that indicates a successful login",
+          "additionalProperties": false,
+          "properties": {
+            "type": {
+              "type": "string",
+              "enum": [
+                "url_contains",
+                "url_equals_exactly",
+                "element_present",
+                "text_contains"
+              ],
+              "description": "Type of condition to check after login"
+            },
+            "value": {
+              "type": "string",
+              "description": "Value to match against the condition type"
+            }
+          }
+        }
+      }
+    },
+    "rules": {
+      "type": "object",
+      "description": "Scope rules for the scan",
+      "additionalProperties": false,
+      "properties": {
+        "avoid": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "URL patterns to exclude from scanning"
+        },
+        "focus": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "description": "URL patterns to prioritize during scanning"
+        }
+      }
+    },
+    "description": {
+      "type": "string",
+      "maxLength": 500,
+      "description": "Free-text context about the application"
+    },
+    "tools": {
+      "type": "object",
+      "description": "Toggle external reconnaissance tools",
+      "additionalProperties": false,
+      "properties": {
+        "nmap": {
+          "type": "boolean",
+          "default": true,
+          "description": "Enable nmap port scanning"
+        },
+        "subfinder": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable subfinder subdomain enumeration"
+        },
+        "whatweb": {
+          "type": "boolean",
+          "default": false,
+          "description": "Enable whatweb technology fingerprinting"
+        }
+      }
+    }
+  }
+}
