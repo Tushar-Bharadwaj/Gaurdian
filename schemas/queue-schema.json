@@ -1,0 +1,142 @@
+{
+  "$schema": "http://json-schema.org/draft-07/schema#",
+  "$id": "https://shannon.dev/guardian-skills/queue-schema.json",
+  "title": "Guardian Vulnerability Queue",
+  "description": "Schema for vulnerability queue files produced by vuln skills and consumed by exploit skills.",
+  "type": "object",
+  "required": ["vulnerabilities"],
+  "properties": {
+    "vulnerabilities": {
+      "type": "array",
+      "description": "List of vulnerabilities discovered during analysis.",
+      "items": {
+        "type": "object",
+        "required": ["id", "vulnerability_type", "externally_exploitable", "confidence"],
+        "properties": {
+          "id": {
+            "type": "string",
+            "description": "Unique identifier for the vulnerability (e.g. INJ-001, XSS-003)."
+          },
+          "vulnerability_type": {
+            "type": "string",
+            "description": "Category of vulnerability (e.g. sql_injection, xss, auth_bypass, ssrf, authz)."
+          },
+          "externally_exploitable": {
+            "type": "boolean",
+            "description": "Whether the vulnerability is reachable from an external attacker."
+          },
+          "confidence": {
+            "type": "string",
+            "enum": ["high", "medium", "low"],
+            "description": "Confidence level in the finding."
+          },
+          "notes": {
+            "type": "string",
+            "description": "Optional context or analyst notes about the vulnerability."
+          },
+
+          "source": {
+            "type": "string",
+            "description": "Injection domain: taint source where untrusted data enters."
+          },
+          "path": {
+            "type": "string",
+            "description": "Injection/XSS domain: data-flow path from source to sink."
+          },
+          "sink_call": {
+            "type": "string",
+            "description": "Injection domain: the dangerous function or query call."
+          },
+          "slot_type": {
+            "type": "string",
+            "description": "Injection domain: type of slot the tainted data fills (e.g. value, column, table)."
+          },
+          "sanitization_observed": {
+            "type": "string",
+            "description": "Injection domain: any sanitization or escaping observed on the path."
+          },
+          "concat_occurrences": {
+            "type": "integer",
+            "description": "Injection domain: number of string-concatenation occurrences in the query."
+          },
+          "witness_payload": {
+            "type": "string",
+            "description": "Injection/XSS domain: proof-of-concept payload demonstrating the vulnerability."
+          },
+          "verdict": {
+            "type": "string",
+            "description": "Injection/XSS domain: final verdict on exploitability."
+          },
+          "mismatch_reason": {
+            "type": "string",
+            "description": "Injection/XSS domain: reason if the finding was downgraded or reclassified."
+          },
+
+          "source_detail": {
+            "type": "string",
+            "description": "XSS domain: detailed source information for the tainted input."
+          },
+          "sink_function": {
+            "type": "string",
+            "description": "XSS domain: the rendering or DOM-manipulation function acting as a sink."
+          },
+          "render_context": {
+            "type": "string",
+            "description": "XSS domain: the HTML/JS context where the payload is rendered."
+          },
+          "encoding_observed": {
+            "type": "string",
+            "description": "XSS domain: any output encoding observed before rendering."
+          },
+
+          "source_endpoint": {
+            "type": "string",
+            "description": "Auth/SSRF domain: the HTTP endpoint where the vulnerability is exposed."
+          },
+          "vulnerable_code_location": {
+            "type": "string",
+            "description": "Auth/SSRF/Authz domain: file and line location of the vulnerable code."
+          },
+          "missing_defense": {
+            "type": "string",
+            "description": "Auth/SSRF domain: the security control that is absent or misconfigured."
+          },
+          "exploitation_hypothesis": {
+            "type": "string",
+            "description": "Auth/SSRF domain: hypothesis for how an attacker could exploit this."
+          },
+          "suggested_exploit_technique": {
+            "type": "string",
+            "description": "Auth domain: recommended technique for exploiting the vulnerability."
+          },
+
+          "vulnerable_parameter": {
+            "type": "string",
+            "description": "SSRF domain: the request parameter susceptible to SSRF."
+          },
+
+          "endpoint": {
+            "type": "string",
+            "description": "Authz domain: the API endpoint affected by the authorization flaw."
+          },
+          "role_context": {
+            "type": "string",
+            "description": "Authz domain: the role or permission context relevant to the finding."
+          },
+          "guard_evidence": {
+            "type": "string",
+            "description": "Authz domain: evidence of existing (insufficient) authorization guards."
+          },
+          "side_effect": {
+            "type": "string",
+            "description": "Authz domain: observable side effect proving the authorization bypass."
+          },
+          "minimal_witness": {
+            "type": "string",
+            "description": "Authz domain: minimal request or sequence that demonstrates the bypass."
+          }
+        }
+      }
+    }
+  }
+}
