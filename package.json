@@ -1,0 +1,22 @@
+{
+  "name": "@CaptainClaude/guardian-skills",
+  "version": "0.1.0",
+  "description": "AI-powered penetration testing skills for Claude Code",
+  "keywords": ["claude-code-plugin", "security", "pentesting"],
+  "license": "AGPL-3.0",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/CaptainClaude/guardian"
+  },
+  "claude-code": {
+    "skills": "skills/",
+    "hooks": {
+      "Stop": [
+        {
+          "matcher": "",
+          "command": "guardian-skills/hooks/post-agent.sh"
+        }
+      ]
+    }
+  }
+}
