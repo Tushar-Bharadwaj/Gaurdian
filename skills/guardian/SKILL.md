@@ -148,7 +148,7 @@ Recon runs as a single combined phase that produces both `pre-recon.md` and `rec
 
 1. Check resume state for `recon`. Skip if completed with deliverables present.
 2. Update state: `bash guardian-skills/scripts/update-state.sh <state-file> recon in_progress`
-3. Execute the `/guardian-recon` skill behavior inline. Read the `guardian-skills/skills/guardian-recon.md` instructions and follow them:
+3. Execute the `/guardian-recon` skill behavior inline. Read the `guardian-skills/skills/guardian-recon/SKILL.md` instructions and follow them:
    - Read config, partials (`target.md`, `rules.md`, `scope-vuln.md`)
    - Run external tools (nmap, subfinder, whatweb) if enabled
    - Dispatch Phase 1 discovery agents (Architecture Scanner, Entry Point Mapper, Security Pattern Hunter) in parallel
