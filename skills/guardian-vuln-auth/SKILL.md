@@ -1,5 +1,6 @@
 ---
 name: guardian-vuln-auth
+version: 0.1.0
 description: >
   Analyze a target application for authentication vulnerabilities.
   Examines login flows, session management, token security, password

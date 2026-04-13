@@ -1,5 +1,6 @@
 ---
 name: guardian-vuln-injection
+version: 0.1.0
 description: >
   Analyze a target application for injection vulnerabilities (SQL, command,
   template, deserialization). Performs white-box source-to-sink taint

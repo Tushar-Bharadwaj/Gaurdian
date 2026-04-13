@@ -1,5 +1,6 @@
 ---
 name: guardian-vuln-xss
+version: 0.1.0
 description: >
   Analyze a target application for cross-site scripting (XSS)
   vulnerabilities. Performs sink-to-source taint analysis across 6 render
