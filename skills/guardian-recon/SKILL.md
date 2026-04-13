@@ -1,12 +1,13 @@
 ---
 name: guardian-recon
+version: 0.1.0
 description: >
-  Perform reconnaissance against a target application. Combines static
-  source code analysis (architecture mapping, sink identification,
-  auth analysis) with live application discovery (endpoint probing,
-  browser crawling, attack surface correlation). Produces pre-recon.md
-  and recon.md deliverables. Use when the user invokes /guardian-recon
-  or as the first phase of a full /guardian pipeline. Requires
+  Use this skill when the user invokes /guardian-recon or as the first
+  phase of a full /guardian pipeline. Performs reconnaissance against a
+  target application by combining static source code analysis (architecture
+  mapping, sink identification, auth analysis) with live application
+  discovery (endpoint probing, browser crawling, attack surface correlation).
+  Produces pre-recon.md and recon.md deliverables. Requires
   guardian/config.yaml to exist (run /guardian-setup first).
 ---
 

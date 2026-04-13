@@ -1,12 +1,13 @@
 ---
 name: guardian-report
+version: 0.1.0
 description: >
-  Generate an executive security assessment report from Guardian
-  exploitation evidence. Reads all evidence files, extracts confirmed
+  Use this skill when the user invokes /guardian-report or after exploitation
+  phases complete. Generates an executive security assessment report from
+  Guardian exploitation evidence: reads all evidence files, extracts confirmed
   findings (EXPLOITED and BLOCKED_BY_SECURITY), de-duplicates, assesses
-  severity, and writes remediation guidance. Use when the user invokes
-  /guardian-report, or after exploitation phases complete. Requires at
-  least one guardian/scans/<name>/exploit/*-evidence.md file to exist.
+  severity, and writes remediation guidance. Requires at least one
+  guardian/scans/<name>/exploit/*-evidence.md file to exist.
 ---
 
 ## Role

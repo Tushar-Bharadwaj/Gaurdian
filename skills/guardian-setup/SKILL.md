@@ -1,13 +1,13 @@
 ---
 name: guardian-setup
+version: 0.1.0
 description: >
-  Set up Guardian for penetration testing. Checks and installs security
-  tool dependencies (nmap, subfinder, whatweb), then walks through
-  interactive configuration: target URL, application type, authentication,
-  scope rules. Creates guardian/config.yaml and guardian/.env. Use when
-  the user invokes /guardian-setup, wants to configure a new pen test
-  target, or before running /guardian for the first time. Always run
-  this before any other Guardian skill.
+  Use this skill when the user invokes /guardian-setup, wants to configure
+  a new pen test target, or before running /guardian for the first time.
+  Checks and installs security tool dependencies (nmap, subfinder, whatweb),
+  then walks through interactive configuration: target URL, application type,
+  authentication, scope rules. Creates guardian/config.yaml and guardian/.env.
+  Always run this before any other Guardian skill.
 ---
 
 # Guardian Setup

@@ -1,14 +1,15 @@
 ---
 name: guardian
+version: 0.1.0
 description: >
-  Run a full autonomous penetration test against a target web application.
-  Orchestrates reconnaissance, 5-domain vulnerability analysis, conditional
-  exploitation, and executive reporting. Dispatches parallel subagents for
-  vuln+exploit pipelines. Supports resume (re-run to continue from where
-  you left off), named scans (--name), and fresh starts (--fresh). Use when
-  the user wants a complete security assessment, invokes /guardian, or asks
-  to pen test their application. Requires guardian/config.yaml to exist
-  (run /guardian-setup first).
+  Use this skill when the user invokes /guardian, wants a complete security
+  assessment, or asks to pen test their application. Runs a full autonomous
+  penetration test against a target web application: orchestrates
+  reconnaissance, 5-domain vulnerability analysis, conditional exploitation,
+  and executive reporting. Dispatches parallel subagents for vuln+exploit
+  pipelines. Supports resume (re-run to continue from where you left off),
+  named scans (--name), and fresh starts (--fresh). Requires
+  guardian/config.yaml to exist (run /guardian-setup first).
 ---
 
 # Guardian Orchestrator
