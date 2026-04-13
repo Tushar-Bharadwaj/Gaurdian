@@ -1,0 +1,12 @@
+{
+  "name": "guardian",
+  "version": "0.1.0",
+  "description": "AI-powered penetration testing skills for Claude Code — automated vulnerability analysis and exploitation across 5 security domains",
+  "author": {
+    "name": "CaptainClaude",
+    "url": "https://github.com/CaptainClaude"
+  },
+  "repository": "https://github.com/CaptainClaude/guardian",
+  "license": "AGPL-3.0",
+  "keywords": ["security", "pentesting", "vulnerability-assessment", "exploitation"]
+}
