@@ -49,7 +49,7 @@ find_active_scan() {
 }
 
 # 2. Find the active scan or exit silently
-SCAN_DIR=$(find_active_scan) || exit 0
+SCAN_DIR=$(find_active_scan) || { echo '{"status":"skipped","reason":"no active scan"}'; exit 0; }
 STATE_FILE="${SCAN_DIR}.state.json"
 
 # 3. Get all in-progress phases
@@ -58,6 +58,7 @@ mapfile -t IN_PROGRESS_PHASES < <(
 )
 
 # 4. For each in-progress phase, check deliverables and update state
+TRANSITIONS='[]'
 for phase in "${IN_PROGRESS_PHASES[@]}"; do
   expected="${PHASE_DELIVERABLES[$phase]:-}"
   if [[ -z "$expected" ]]; then
@@ -78,11 +79,15 @@ for phase in "${IN_PROGRESS_PHASES[@]}"; do
   done
 
   if [[ "$all_present" == true ]]; then
-    # All deliverables present — mark completed
     deliverables_json=$(printf '%s\n' "${deliverables_list[@]}" | jq -R . | jq -s .)
     "$UPDATE_STATE" "$STATE_FILE" "$phase" "completed" "$deliverables_json"
+    TRANSITIONS=$(echo "$TRANSITIONS" | jq --arg p "$phase" --arg f "in_progress" --arg t "completed" '. + [{"phase":$p,"from":$f,"to":$t}]')
   else
-    # Deliverables missing — mark failed
     "$UPDATE_STATE" "$STATE_FILE" "$phase" "failed"
+    TRANSITIONS=$(echo "$TRANSITIONS" | jq --arg p "$phase" --arg f "in_progress" --arg t "failed" '. + [{"phase":$p,"from":$f,"to":$t}]')
   fi
 done
+
+# 5. Structured output
+SCAN_NAME=$(basename "${SCAN_DIR%/}")
+echo "$TRANSITIONS" | jq -c --arg s "$SCAN_NAME" '{"status":"ok","scan":$s,"transitions":.}'
