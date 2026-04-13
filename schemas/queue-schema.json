@@ -1,6 +1,6 @@
 {
   "$schema": "http://json-schema.org/draft-07/schema#",
-  "$id": "https://shannon.dev/guardian-skills/queue-schema.json",
+  "$id": "https://github.com/CaptainClaude/guardian/schemas/queue-schema.json",
   "title": "Guardian Vulnerability Queue",
   "description": "Schema for vulnerability queue files produced by vuln skills and consumed by exploit skills.",
   "type": "object",
