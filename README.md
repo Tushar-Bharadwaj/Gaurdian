@@ -4,8 +4,16 @@ Guardian is an AI-powered penetration testing plugin for Claude Code. It automat
 
 ## Installation
 
+### From local directory
+
 ```bash
-claude plugin add @CaptainClaude/guardian-skills
+claude plugin add /path/to/guardian
+```
+
+### From GitHub (when published)
+
+```bash
+claude plugin add @CaptainClaude/guardian
 ```
 
 ## Quick Start
@@ -40,3 +48,19 @@ claude plugin add @CaptainClaude/guardian-skills
 ## Security Notice
 
 For authorized security testing only. Use only on systems you own or have explicit permission to test.
+
+## Plugin Structure
+
+```
+guardian/
+├── .claude-plugin/
+│   └── plugin.json          # Plugin manifest
+├── hooks/
+│   ├── hooks.json           # Hook configuration
+│   ├── session-start.sh     # Exports $GUARDIAN_ROOT
+│   └── post-agent.sh        # Validates deliverables on Stop
+├── partials/                # Shared documentation fragments
+├── schemas/                 # JSON schemas (config, queue)
+├── scripts/                 # Utility scripts
+└── skills/                  # 14 skill directories
+```
