@@ -2,7 +2,7 @@
 name: guardian-vuln-auth
 version: 0.1.0
 description: >
-  Analyze a target application for authentication vulnerabilities.
+  Analyzes a target application for authentication vulnerabilities.
   Examines login flows, session management, token security, password
   handling, OAuth/SSO, CSRF protection, and MFA implementation for
   missing or weak controls. Produces an analysis narrative and structured

@@ -2,7 +2,7 @@
 name: guardian-vuln-authz
 version: 0.1.0
 description: >
-  Analyze a target application for authorization vulnerabilities.
+  Analyzes a target application for authorization vulnerabilities.
   Examines access controls for horizontal privilege escalation (IDOR),
   vertical privilege escalation, and workflow/context bypass. Checks every
   state-changing endpoint for missing ownership and role validation.

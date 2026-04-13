@@ -2,7 +2,7 @@
 name: guardian-vuln-ssrf
 version: 0.1.0
 description: >
-  Analyze a target application for server-side request forgery (SSRF)
+  Analyzes a target application for server-side request forgery (SSRF)
   vulnerabilities. Performs sink-to-source taint analysis across 12 SSRF
   sink categories (HTTP clients, headless browsers, webhooks, media
   processors, etc.). Produces an analysis narrative and structured
