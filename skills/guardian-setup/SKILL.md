@@ -53,7 +53,7 @@ operations may require manual approval.
 Run the dependency checker:
 
 ```
-bash guardian-skills/scripts/check-dependencies.sh
+bash "$GUARDIAN_ROOT/scripts/check-dependencies.sh"
 ```
 
 Parse the JSON output. It contains:
@@ -225,7 +225,7 @@ mkdir -p guardian/scans
 
 **Step 2 -- Write guardian/config.yaml:**
 
-Build a YAML file matching the schema in `guardian-skills/schemas/config-schema.json`.
+Build a YAML file matching the schema in `../../schemas/config-schema.json`.
 Structure:
 
 ```yaml
@@ -354,7 +354,7 @@ set to `pending`:
 Run the config validator to make sure the generated file is well-formed:
 
 ```
-bash guardian-skills/scripts/validate-config.sh guardian/config.yaml
+bash "$GUARDIAN_ROOT/scripts/validate-config.sh" guardian/config.yaml
 ```
 
 If validation fails, fix the issue and re-validate.
@@ -400,7 +400,7 @@ Run /guardian to start the full penetration test, or run individual skills:
 
 ## Error Handling
 
-- If `check-dependencies.sh` fails to run, check that the script exists and is executable. Run `chmod +x guardian-skills/scripts/check-dependencies.sh` if needed.
+- If `check-dependencies.sh` fails to run, check that the script exists and is executable. Run `chmod +x "$GUARDIAN_ROOT/scripts/check-dependencies.sh"` if needed.
 - If the target URL is unreachable, do not block setup. Warn the user and let them proceed -- the app may start later.
 - If config validation fails after writing, read the error output and fix the YAML. Do not leave an invalid config file.
 - If `guardian/.env` already exists, ask before overwriting: "Existing credentials found. Overwrite? (yes/no)"

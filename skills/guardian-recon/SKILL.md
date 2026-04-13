@@ -21,11 +21,11 @@ You are a Principal Engineer and Reconnaissance Analyst specializing in security
 Before starting any analysis:
 
 1. Read `guardian/config.yaml` and validate it exists. If missing, instruct the user to run `/guardian-setup` first and stop.
-2. Read `guardian-skills/partials/target.md` to understand target context (URL, source code path, target type, API spec).
-3. Read `guardian-skills/partials/rules.md` to understand scope rules (avoid/focus lists).
+2. Read `../../partials/target.md` to understand target context (URL, source code path, target type, API spec).
+3. Read `../../partials/rules.md` to understand scope rules (avoid/focus lists).
 4. Determine the current scan directory from `guardian/scans/`. If no active scan exists, create one named with today's date (e.g., `guardian/scans/2026-04-12/`).
 5. Create the output directory: `guardian/scans/<current-scan>/recon/`.
-6. Read `guardian-skills/partials/scope-vuln.md` for external attacker scope constraints.
+6. Read `../../partials/scope-vuln.md` for external attacker scope constraints.
 
 ### Config Values to Extract
 
@@ -41,7 +41,7 @@ From `guardian/config.yaml`, extract and keep available throughout:
 
 ## Scope Enforcement
 
-Reference `guardian-skills/partials/scope-vuln.md` throughout both phases. Apply these constraints:
+Reference `../../partials/scope-vuln.md` throughout both phases. Apply these constraints:
 
 **In scope:** Network-reachable endpoints (HTTP/HTTPS), web routes, API endpoints, WebSocket connections, anything accessible via the target URL. This includes endpoints requiring authentication via the application's standard login mechanisms, and any developer utility or debug console mistakenly exposed through a route.
 
@@ -141,7 +141,7 @@ Phase 2 correlates static findings with live application behavior to produce the
 
 ### Authentication (If Configured)
 
-If `authentication` is set in `guardian/config.yaml`, read `guardian-skills/partials/login-instructions.md` and follow the appropriate login flow before exploration. Verify login success using the configured `success_condition`.
+If `authentication` is set in `guardian/config.yaml`, read `../../partials/login-instructions.md` and follow the appropriate login flow before exploration. Verify login success using the configured `success_condition`.
 
 ### Target Type Determines Approach
 
@@ -218,7 +218,7 @@ guardian/scans/<current-scan>/recon/
 
 Update scan state at phase boundaries using the update-state script:
 
-- Before starting Phase 1: `guardian-skills/scripts/update-state.sh <state-file> recon in_progress`
+- Before starting Phase 1: `"$GUARDIAN_ROOT/scripts/update-state.sh" <state-file> recon in_progress`
 - After both deliverables are written: the post-agent hook will verify deliverables and mark the phase completed.
 
 ## Completion
