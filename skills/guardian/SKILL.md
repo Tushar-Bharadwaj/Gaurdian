@@ -25,7 +25,7 @@ Before starting the pipeline:
 
 2. **Validate config.** Run:
    ```
-   bash guardian-skills/scripts/validate-config.sh guardian/config.yaml
+   bash "$GUARDIAN_ROOT/scripts/validate-config.sh" guardian/config.yaml
    ```
    Parse the JSON output. If `valid` is `false`, print the errors and stop.
 
@@ -147,8 +147,8 @@ Recon runs as a single combined phase that produces both `pre-recon.md` and `rec
 **Steps:**
 
 1. Check resume state for `recon`. Skip if completed with deliverables present.
-2. Update state: `bash guardian-skills/scripts/update-state.sh <state-file> recon in_progress`
-3. Execute the `/guardian-recon` skill behavior inline. Read the `guardian-skills/skills/guardian-recon/SKILL.md` instructions and follow them:
+2. Update state: `bash "$GUARDIAN_ROOT/scripts/update-state.sh" <state-file> recon in_progress`
+3. Execute the `/guardian-recon` skill behavior inline. Read the `../guardian-recon/SKILL.md` instructions and follow them:
    - Read config, partials (`target.md`, `rules.md`, `scope-vuln.md`)
    - Run external tools (nmap, subfinder, whatweb) if enabled
    - Dispatch Phase 1 discovery agents (Architecture Scanner, Entry Point Mapper, Security Pattern Hunter) in parallel
@@ -180,31 +180,31 @@ You are running a Guardian penetration test pipeline for the **{domain}** domain
 
 **Steps:**
 
-1. **Update state:** Run `bash guardian-skills/scripts/update-state.sh guardian/scans/{scan_name}/.state.json vuln-{domain} in_progress`
+1. **Update state:** Run `bash "$GUARDIAN_ROOT/scripts/update-state.sh" guardian/scans/{scan_name}/.state.json vuln-{domain} in_progress`
 
 2. **Execute vulnerability analysis** following the /guardian-vuln-{domain} skill methodology:
    - Read `guardian/config.yaml` for scope rules and target type
    - Read `guardian/scans/{scan_name}/recon/recon.md` for attack surface
-   - Read the partials: `guardian-skills/partials/scope-vuln.md`, `guardian-skills/partials/rules.md`, `guardian-skills/partials/target.md`
+   - Read the partials: `../../partials/scope-vuln.md`, `../../partials/rules.md`, `../../partials/target.md`
    - Perform {domain}-specific vulnerability analysis
    - Write `guardian/scans/{scan_name}/vuln/{domain}-analysis.md` and `guardian/scans/{scan_name}/vuln/{domain}-queue.json`
 
 3. **Check the exploitation queue:** Run:
    ```
-   bash guardian-skills/scripts/check-queue.sh guardian/scans/{scan_name}/vuln/{domain}-queue.json
+   bash "$GUARDIAN_ROOT/scripts/check-queue.sh" guardian/scans/{scan_name}/vuln/{domain}-queue.json
    ```
 
 4. **If the queue has entries** (exit code 0): Update state and execute exploitation:
-   - Run `bash guardian-skills/scripts/update-state.sh guardian/scans/{scan_name}/.state.json exploit-{domain} in_progress`
+   - Run `bash "$GUARDIAN_ROOT/scripts/update-state.sh" guardian/scans/{scan_name}/.state.json exploit-{domain} in_progress`
    - Follow the /guardian-exploit-{domain} skill methodology:
-     - Read partials: `guardian-skills/partials/scope-exploit.md`, `guardian-skills/partials/login-instructions.md`, `guardian-skills/partials/target.md`
+     - Read partials: `../../partials/scope-exploit.md`, `../../partials/login-instructions.md`, `../../partials/target.md`
      - Read the queue and analysis files
      - Exploit each vulnerability, classify verdicts
      - Write `guardian/scans/{scan_name}/exploit/{domain}-evidence.md`
 
 5. **If the queue is empty** (exit code 1): Report "No {domain} vulnerabilities found, skipping exploitation." and run:
    ```
-   bash guardian-skills/scripts/update-state.sh guardian/scans/{scan_name}/.state.json exploit-{domain} skipped reason="empty vulnerability queue"
+   bash "$GUARDIAN_ROOT/scripts/update-state.sh" guardian/scans/{scan_name}/.state.json exploit-{domain} skipped reason="empty vulnerability queue"
    ```
 
 6. **Browser isolation:** Open a new browser tab for your work. Do not interact with tabs from other agents.
@@ -220,7 +220,7 @@ Wait for all 5 agents to complete. Some may fail -- that is acceptable. Failed d
 After all 5 vuln+exploit pipelines complete (or fail):
 
 1. Check resume state for `report`. Skip if completed with deliverable present.
-2. Update state: `bash guardian-skills/scripts/update-state.sh <state-file> report in_progress`
+2. Update state: `bash "$GUARDIAN_ROOT/scripts/update-state.sh" <state-file> report in_progress`
 3. Execute the `/guardian-report` skill behavior:
    - Read all evidence files from `exploit/`
    - Read `recon/recon.md` and `recon/pre-recon.md` for context
@@ -287,20 +287,20 @@ Re-run /guardian to retry report generation.
 
 ## State Management
 
-Use `guardian-skills/scripts/update-state.sh` for all state transitions:
+Use `"$GUARDIAN_ROOT/scripts/update-state.sh"` for all state transitions:
 
 ```bash
 # Mark a phase as in progress
-bash guardian-skills/scripts/update-state.sh <state-file> <phase> in_progress
+bash "$GUARDIAN_ROOT/scripts/update-state.sh" <state-file> <phase> in_progress
 
 # Mark a phase as completed (deliverables auto-verified by post-agent hook)
-bash guardian-skills/scripts/update-state.sh <state-file> <phase> completed
+bash "$GUARDIAN_ROOT/scripts/update-state.sh" <state-file> <phase> completed
 
 # Mark a phase as failed
-bash guardian-skills/scripts/update-state.sh <state-file> <phase> failed
+bash "$GUARDIAN_ROOT/scripts/update-state.sh" <state-file> <phase> failed
 
 # Mark a phase as skipped with a reason
-bash guardian-skills/scripts/update-state.sh <state-file> <phase> skipped reason="<reason>"
+bash "$GUARDIAN_ROOT/scripts/update-state.sh" <state-file> <phase> skipped reason="<reason>"
 ```
 
 The post-agent hook (`hooks/post-agent.sh`) fires on the Claude Code Stop event. It finds in-progress phases, checks their expected deliverables, and marks them `completed` or `failed` accordingly. This provides a safety net -- but do not rely on it exclusively. Update state proactively within the pipeline.
