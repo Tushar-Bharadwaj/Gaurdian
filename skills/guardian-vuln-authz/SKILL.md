@@ -22,14 +22,14 @@ You are an Authorization Security Specialist performing white-box analysis of a 
 Before starting analysis:
 
 1. **Read `guardian/config.yaml`** and validate it exists. If missing, instruct the user to run `/guardian-setup` first and stop.
-2. **Read `guardian-skills/partials/target.md`** to understand target context (URL, source code path, target type, API spec).
-3. **Read `guardian-skills/partials/rules.md`** to understand scope rules (avoid/focus lists).
-4. **Read `guardian-skills/partials/scope-vuln.md`** for external attacker scope constraints.
+2. **Read `../../partials/target.md`** to understand target context (URL, source code path, target type, API spec).
+3. **Read `../../partials/rules.md`** to understand scope rules (avoid/focus lists).
+4. **Read `../../partials/scope-vuln.md`** for external attacker scope constraints.
 5. **Find the active scan directory** under `guardian/scans/`. Check `.state.json` — the active scan has phases with `in_progress` or `completed` status. If multiple scans exist, use the most recently modified one.
 6. **Read `guardian/scans/<current-scan>/recon/recon.md`**. This is mandatory. If it does not exist, instruct the user to run `/guardian-recon` first and stop.
 7. **Read `guardian/scans/<current-scan>/recon/pre-recon.md`** for supplementary architecture and auth details.
 8. **Create the output directory**: `mkdir -p guardian/scans/<current-scan>/vuln/`.
-9. **Update scan state**: `guardian-skills/scripts/update-state.sh <state-file> vuln-authz in_progress`.
+9. **Update scan state**: `"$GUARDIAN_ROOT/scripts/update-state.sh" <state-file> vuln-authz in_progress`.
 
 ### Config Values to Extract
 
@@ -52,7 +52,7 @@ From `recon.md`, extract these sections as your primary intelligence:
 
 ## Scope Enforcement
 
-Reference `guardian-skills/partials/scope-vuln.md` throughout analysis. Apply these constraints:
+Reference `../../partials/scope-vuln.md` throughout analysis. Apply these constraints:
 
 **In scope:** Network-reachable endpoints (HTTP/HTTPS), web routes, API endpoints, WebSocket connections, anything accessible via the target URL. Includes endpoints behind standard application authentication.
 
@@ -327,7 +327,7 @@ If no authorization vulnerabilities are found, write:
 
 Update scan state at phase boundaries using the update-state script:
 
-- Before starting analysis: `guardian-skills/scripts/update-state.sh <state-file> vuln-authz in_progress`
+- Before starting analysis: `"$GUARDIAN_ROOT/scripts/update-state.sh" <state-file> vuln-authz in_progress`
 - After both deliverables are written: the post-agent hook will verify deliverables and mark the phase completed.
 
 ## Completion

@@ -21,9 +21,9 @@ You are an SSRF Analysis Specialist performing white-box sink-to-source taint an
 Before starting analysis:
 
 1. Read `guardian/config.yaml` and validate it exists. If missing, instruct the user to run `/guardian-setup` first and stop.
-2. Read `guardian-skills/partials/target.md` for target context (URL, source code path, target type).
-3. Read `guardian-skills/partials/rules.md` for scope rules (avoid/focus lists).
-4. Read `guardian-skills/partials/scope-vuln.md` for external attacker scope constraints.
+2. Read `../../partials/target.md` for target context (URL, source code path, target type).
+3. Read `../../partials/rules.md` for scope rules (avoid/focus lists).
+4. Read `../../partials/scope-vuln.md` for external attacker scope constraints.
 5. Locate the active scan directory under `guardian/scans/`. Check `.state.json` — use the scan with `vuln-ssrf` status `in_progress` or the most recently modified scan.
 6. Read `guardian/scans/<current-scan>/recon/recon.md` — this is your primary input. If it does not exist, stop and tell the user to run `/guardian-recon` first.
 7. Read `guardian/scans/<current-scan>/recon/pre-recon.md` — extract Section 11 (SSRF Sinks) as your initial sink inventory.
@@ -40,7 +40,7 @@ Extract from `guardian/config.yaml` and keep available:
 
 ## Scope Enforcement
 
-Apply external attacker scope from `guardian-skills/partials/scope-vuln.md`:
+Apply external attacker scope from `../../partials/scope-vuln.md`:
 
 **In scope:** Network-reachable endpoints (HTTP/HTTPS), web routes, API endpoints, WebSocket connections — anything accessible via the target URL.
 
@@ -256,7 +256,7 @@ For each vulnerable sink:
 
 ### 2. `ssrf-queue.json` — Exploitation Queue
 
-Write a JSON file conforming to the schema in `guardian-skills/schemas/queue-schema.json`. Only include findings with a **vulnerable** verdict. Each entry must contain these SSRF-specific fields:
+Write a JSON file conforming to the schema in `../../schemas/queue-schema.json`. Only include findings with a **vulnerable** verdict. Each entry must contain these SSRF-specific fields:
 
 ```json
 {
@@ -294,7 +294,7 @@ Write a JSON file conforming to the schema in `guardian-skills/schemas/queue-sch
 ## State Management
 
 Update scan state at phase boundaries:
-- Before starting: `guardian-skills/scripts/update-state.sh <state-file> vuln-ssrf in_progress`
+- Before starting: `"$GUARDIAN_ROOT/scripts/update-state.sh" <state-file> vuln-ssrf in_progress`
 - After both deliverables are written: the post-agent hook verifies deliverables and marks the phase completed.
 
 ## Completion

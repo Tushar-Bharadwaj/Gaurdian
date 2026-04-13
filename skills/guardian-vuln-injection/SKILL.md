@@ -22,9 +22,9 @@ You analyze SQL injection, command injection, template injection, file path inje
 Before starting analysis:
 
 1. **Read `guardian/config.yaml`** and validate it exists. If missing, instruct the user to run `/guardian-setup` first and stop.
-2. **Read `guardian-skills/partials/target.md`** to understand target context (URL, source code path, target type, API spec).
-3. **Read `guardian-skills/partials/rules.md`** to understand scope rules (avoid/focus lists).
-4. **Read `guardian-skills/partials/scope-vuln.md`** for external attacker scope constraints.
+2. **Read `../../partials/target.md`** to understand target context (URL, source code path, target type, API spec).
+3. **Read `../../partials/rules.md`** to understand scope rules (avoid/focus lists).
+4. **Read `../../partials/scope-vuln.md`** for external attacker scope constraints.
 5. **Locate the active scan directory** under `guardian/scans/`. Check `.state.json` files — the active scan has phases with `in_progress` or `completed` status. If multiple scans exist and none are in progress, use the most recently modified one.
 6. **Read `guardian/scans/<current-scan>/recon/recon.md`**. If it does not exist, stop and tell the user: "Recon has not been completed. Run /guardian-recon first."
 7. **Create the output directory**: `mkdir -p guardian/scans/<current-scan>/vuln/`
@@ -41,7 +41,7 @@ From `guardian/config.yaml`, keep available throughout:
 
 ## Scope Enforcement
 
-Reference `guardian-skills/partials/scope-vuln.md` throughout all analysis.
+Reference `../../partials/scope-vuln.md` throughout all analysis.
 
 **In scope:** Network-reachable endpoints (HTTP/HTTPS), web routes, API endpoints, WebSocket connections, anything accessible via the target URL.
 
@@ -192,11 +192,11 @@ Record the probe result (response content, status code, timing differences) in t
 
 ### Authentication for Probing
 
-If `authentication` is configured in `guardian/config.yaml`, read `guardian-skills/partials/login-instructions.md` and complete the login flow before probing authenticated endpoints.
+If `authentication` is configured in `guardian/config.yaml`, read `../../partials/login-instructions.md` and complete the login flow before probing authenticated endpoints.
 
 ## Queue JSON Format
 
-Write the exploitation queue to `guardian/scans/<current-scan>/vuln/injection-queue.json`. The file must conform to `guardian-skills/schemas/queue-schema.json`.
+Write the exploitation queue to `guardian/scans/<current-scan>/vuln/injection-queue.json`. The file must conform to `../../schemas/queue-schema.json`.
 
 Each entry in the `vulnerabilities` array must include:
 
@@ -334,7 +334,7 @@ guardian/scans/<current-scan>/vuln/
 
 Update scan state at phase boundaries:
 
-- Before starting analysis: `bash guardian-skills/scripts/update-state.sh <state-file> vuln-injection in_progress`
+- Before starting analysis: `bash "$GUARDIAN_ROOT/scripts/update-state.sh" <state-file> vuln-injection in_progress`
 - After both deliverables are written: the post-agent hook will verify deliverables and mark the phase completed.
 
 ## Completion

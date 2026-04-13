@@ -20,14 +20,14 @@ You are a Principal Security Engineer specializing in cross-site scripting vulne
 Before starting analysis:
 
 1. Read `guardian/config.yaml` and validate it exists. If missing, instruct the user to run `/guardian-setup` first and stop.
-2. Read `guardian-skills/partials/target.md` to understand target context (URL, source code path, target type, API spec).
-3. Read `guardian-skills/partials/rules.md` to understand scope rules (avoid/focus lists).
-4. Read `guardian-skills/partials/scope-vuln.md` for external attacker scope constraints.
+2. Read `../../partials/target.md` to understand target context (URL, source code path, target type, API spec).
+3. Read `../../partials/rules.md` to understand scope rules (avoid/focus lists).
+4. Read `../../partials/scope-vuln.md` for external attacker scope constraints.
 5. Find the active scan directory under `guardian/scans/`. The active scan has phases with `in_progress` or `completed` status in `.state.json`. If multiple scans exist and none are in progress, use the most recently modified one.
 6. Read `guardian/scans/<current-scan>/recon/recon.md`. If it does not exist, stop and tell the user: "Recon deliverable not found. Run /guardian-recon first."
 7. Read `guardian/scans/<current-scan>/recon/pre-recon.md` for the XSS sinks and render contexts inventory from static analysis.
 8. Create the output directory: `mkdir -p guardian/scans/<current-scan>/vuln/`.
-9. Update state: `guardian-skills/scripts/update-state.sh <state-file> vuln-xss in_progress`.
+9. Update state: `"$GUARDIAN_ROOT/scripts/update-state.sh" <state-file> vuln-xss in_progress`.
 
 ### Config Values to Extract
 
@@ -40,7 +40,7 @@ From `guardian/config.yaml`, keep available throughout:
 
 ## Scope Enforcement
 
-Reference `guardian-skills/partials/scope-vuln.md` throughout analysis. Apply these constraints:
+Reference `../../partials/scope-vuln.md` throughout analysis. Apply these constraints:
 
 **In scope:** XSS vulnerabilities exploitable from the target URL as an external attacker. This includes reflected XSS via URL parameters or form inputs, stored XSS via persisted user content, and DOM-based XSS via client-side JavaScript processing of user-controlled values.
 
@@ -340,7 +340,7 @@ deep analysis. Traced <P> taint paths to user-controlled sources.
 
 ### 2. `xss-queue.json`
 
-Generate a JSON file conforming to `guardian-skills/schemas/queue-schema.json`. Each vulnerability gets an entry with these fields:
+Generate a JSON file conforming to `../../schemas/queue-schema.json`. Each vulnerability gets an entry with these fields:
 
 ```json
 {
@@ -382,7 +382,7 @@ Generate a JSON file conforming to `guardian-skills/schemas/queue-schema.json`. 
 After writing both files, validate the queue:
 
 ```bash
-bash guardian-skills/scripts/check-queue.sh guardian/scans/<current-scan>/vuln/xss-queue.json
+bash "$GUARDIAN_ROOT/scripts/check-queue.sh" guardian/scans/<current-scan>/vuln/xss-queue.json
 ```
 
 If validation fails, fix the JSON and re-validate.
@@ -391,7 +391,7 @@ If validation fails, fix the JSON and re-validate.
 
 Update scan state at boundaries:
 
-- Before starting: `guardian-skills/scripts/update-state.sh <state-file> vuln-xss in_progress`
+- Before starting: `"$GUARDIAN_ROOT/scripts/update-state.sh" <state-file> vuln-xss in_progress`
 - After both deliverables are written and validated: the post-agent hook will verify deliverables and mark the phase completed.
 
 ## Completion
