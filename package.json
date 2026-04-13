@@ -7,16 +7,5 @@
   "repository": {
     "type": "git",
     "url": "https://github.com/CaptainClaude/guardian"
-  },
-  "claude-code": {
-    "skills": "skills/",
-    "hooks": {
-      "Stop": [
-        {
-          "matcher": "",
-          "command": "guardian-skills/hooks/post-agent.sh"
-        }
-      ]
-    }
   }
 }
