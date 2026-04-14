@@ -67,7 +67,7 @@ get_install_cmd() {
   case "${os}:${tool}" in
     macos:nmap)      echo "brew install nmap" ;;
     macos:subfinder) echo "brew install subfinder" ;;
-    macos:whatweb)   echo "brew install whatweb" ;;
+    macos:whatweb)   echo "gem install whatweb" ;;
     debian:nmap)     echo "sudo apt-get install -y nmap" ;;
     debian:subfinder) echo "go install -v github.com/projectdiscovery/subfinder/v2/cmd/subfinder@latest" ;;
     debian:whatweb)  echo "sudo apt-get install -y whatweb" ;;
