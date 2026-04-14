@@ -12,6 +12,7 @@ UPDATE_STATE="$SCRIPTS_DIR/update-state.sh"
 # Replaces 'declare -A' associative arrays which require bash 4.0+.
 get_deliverables() {
   case "$1" in
+    pre-recon)         echo "recon/pre-recon.md" ;;
     recon)             echo "recon/pre-recon.md recon/recon.md" ;;
     vuln-injection)    echo "vuln/injection-analysis.md vuln/injection-queue.json" ;;
     vuln-xss)          echo "vuln/xss-analysis.md vuln/xss-queue.json" ;;
