@@ -60,7 +60,7 @@ Before launching code analysis agents, run external reconnaissance tools based o
 
 - **nmap** (if `tools.nmap` is true or not set): `nmap -sV -sC -T4 <target-host> -oN guardian/scans/<current-scan>/recon/nmap-results.txt`
 - **subfinder** (if `tools.subfinder` is true): `subfinder -d <target-domain> -o guardian/scans/<current-scan>/recon/subfinder-results.txt`
-- **whatweb** (if `tools.whatweb` is true): `whatweb <target-url> --log-verbose guardian/scans/<current-scan>/recon/whatweb-results.txt`
+- **whatweb** (if `tools.whatweb` is true): `whatweb <target-url> --no-check-certificate --log-verbose guardian/scans/<current-scan>/recon/whatweb-results.txt`
 
 If a tool is not installed or not enabled, skip it gracefully and note its absence. Do not fail the phase over a missing external tool.
 

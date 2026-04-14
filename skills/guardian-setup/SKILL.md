@@ -29,6 +29,15 @@ If the user wants to dive straight into analysis, acknowledge their urgency but 
 - Claude Code with auto-accept permissions (--dangerously-skip-permissions or allowedTools configured)
 - Target application must be running and accessible
 
+> **SSL/TLS note:** All HTTP tools run with certificate verification disabled (`curl -k`,
+> `whatweb --no-check-certificate`) so self-signed or expired certificates never block a scan.
+> Playwright MCP uses a shared browser context — if the target returns SSL errors during browser
+> navigation, the Playwright MCP server must be launched with `--ignore-https-errors`. Add it to
+> the `args` array for the `playwright` MCP server entry in `~/.claude/settings.json`:
+> ```json
+> "playwright": { "args": ["--ignore-https-errors"] }
+> ```
+
 ## Workflow
 
 ### Phase 1: Permission Check
@@ -94,7 +103,7 @@ proceeding to the next question. Do not batch questions.
 Ask: "What is the URL of the application you want to test?"
 
 After receiving the answer:
-- Validate reachability: `curl -s -o /dev/null -w '%{http_code}' <url>`
+- Validate reachability: `curl -sk -o /dev/null -w '%{http_code}' <url>`
 - If the status code is 000 or the command fails, tell the user the URL
   is unreachable and ask them to verify the application is running.
   Allow them to re-enter the URL or confirm they want to proceed anyway.
