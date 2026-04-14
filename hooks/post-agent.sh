@@ -88,11 +88,12 @@ for phase in "${IN_PROGRESS_PHASES[@]}"; do
 
   if [[ "$all_present" == true ]]; then
     deliverables_json=$(printf '%s\n' "${deliverables_list[@]}" | jq -R . | jq -s .)
-    # Pass deliverables= prefix so update-state.sh can parse the key=value arg
-    "$UPDATE_STATE" "$STATE_FILE" "$phase" "completed" "deliverables=$deliverables_json"
+    # Pass deliverables= prefix so update-state.sh can parse the key=value arg.
+    # Suppress update-state stdout; this hook emits its own structured JSON at the end.
+    "$UPDATE_STATE" "$STATE_FILE" "$phase" "completed" "deliverables=$deliverables_json" > /dev/null
     TRANSITIONS=$(echo "$TRANSITIONS" | jq --arg p "$phase" --arg f "in_progress" --arg t "completed" '. + [{"phase":$p,"from":$f,"to":$t}]')
   else
-    "$UPDATE_STATE" "$STATE_FILE" "$phase" "failed"
+    "$UPDATE_STATE" "$STATE_FILE" "$phase" "failed" > /dev/null
     TRANSITIONS=$(echo "$TRANSITIONS" | jq --arg p "$phase" --arg f "in_progress" --arg t "failed" '. + [{"phase":$p,"from":$f,"to":$t}]')
   fi
 done
